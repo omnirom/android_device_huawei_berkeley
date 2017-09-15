@@ -28,6 +28,9 @@ BOARD_HAVE_BLUETOOTH := true
 TARGET_KERNEL_SOURCE := kernel/huawei/kirin970
 TARGET_KERNEL_CONFIG := merge_kirin970_defconfig
 
+# Extended Filesystem Support
+TARGET_EXFAT_DRIVER := exfat
+
 # Partitions
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 5767168000
 
