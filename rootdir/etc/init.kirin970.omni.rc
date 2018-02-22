@@ -1,0 +1,2 @@
+on post-fs
+    export SYSTEMSERVERCLASSPATH /system/framework/services.jar:/system/framework/ethernet-service.jar:/system/framework/wifi-service.jar:/system/framework/hwServices.jar:/system/framework/hwWifi-service.jar:/system/framework/hwcustServices.jar:/system/framework/hwcustwifi-service.jar

@@ -14,5 +14,6 @@
 # limitations under the License.
 #
 
-add_lunch_combo aosp_berkeley-userdebug
-add_lunch_combo carbon_berkeley-userdebug
+add_lunch_combo omni_berkeley-user
+add_lunch_combo omni_berkeley-userdebug
+add_lunch_combo omni_berkeley-eng

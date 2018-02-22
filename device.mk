@@ -16,34 +16,17 @@
 
 $(call inherit-product-if-exists, vendor/huawei/berkeley/berkeley-vendor.mk)
 $(call inherit-product-if-exists, vendor/gapps/arm64/arm64-vendor.mk)
-
-# Overlays
-DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay
-
-ifeq ($(TARGET_PRODUCT),lineage_berkeley)
-DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay-lineage
-endif
+$(call inherit-product, vendor/omni/config/phone-xxhdpi-4096-dalvik-heap.mk)
+$(call inherit-product, vendor/omni/config/phone-xxhdpi-2048-hwui-memory.mk)
 
 # Boot animation
 TARGET_SCREEN_HEIGHT := 2160
 TARGET_SCREEN_WIDTH := 1080
 
-# APN
-ifeq ($(TARGET_PRODUCT),aosp_berkeley)
-PRODUCT_COPY_FILES += \
-    device/sample/etc/apns-full-conf.xml:system/etc/apns-conf.xml
-endif
-
 # Device init scripts
 PRODUCT_PACKAGES += \
-    init.kirin970.rc
-
-ifeq ($(TARGET_PRODUCT),lineage_berkeley)
-PRODUCT_PACKAGES += \
-    init.kirin970.lineage.rc
-endif
+    init.kirin970.rc \
+    init.kirin970.omni.rc
 
 # Display
 PRODUCT_PACKAGES += \
@@ -51,7 +34,7 @@ PRODUCT_PACKAGES += \
 
 # HIDL
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/compatibility_matrix.xml:system/compatibility_matrix.xml
+    device/huawei/berkeley/compatibility_matrix.xml:system/compatibility_matrix.xml
 
 # NFC
 PRODUCT_PACKAGES += \
@@ -101,5 +84,5 @@ PRODUCT_PACKAGES += \
 
 # VNDK
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/vndk-compat/ld.config.compat.txt:system/etc/ld.config.compat.txt \
-    $(LOCAL_PATH)/vndk-compat/vndk-compat.rc:system/etc/init/vndk-compat.rc
+    device/huawei/berkeley/vndk-compat/ld.config.compat.txt:system/etc/ld.config.compat.txt \
+    device/huawei/berkeley/vndk-compat/vndk-compat.rc:system/etc/init/vndk-compat.rc
