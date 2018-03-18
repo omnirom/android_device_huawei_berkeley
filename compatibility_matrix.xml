@@ -2367,9 +2367,9 @@
     </kernel>
     <sepolicy>
         <kernel-sepolicy-version>30</kernel-sepolicy-version>
-        <sepolicy-version>26.0</sepolicy-version>
+        <sepolicy-version>27.0</sepolicy-version>
     </sepolicy>
     <avb>
-        <vbmeta-version>0.0</vbmeta-version>
+        <vbmeta-version>1.0</vbmeta-version>
     </avb>
 </compatibility-matrix>
