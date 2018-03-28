@@ -41,5 +41,6 @@ TARGET_SYSTEM_PROP := $(DEVICE_PATH)/system.prop
 
 BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/private
 BOARD_PLAT_PUBLIC_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/public
+include vendor/omni/sepolicy/sepolicy.mk
 
 #DEVICE_MATRIX_FILE := $(DEVICE_PATH)/compatibility_matrix.xml
