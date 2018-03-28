@@ -2367,6 +2367,7 @@
     </kernel>
     <sepolicy>
         <kernel-sepolicy-version>30</kernel-sepolicy-version>
+        <sepolicy-version>26.0</sepolicy-version>
         <sepolicy-version>27.0</sepolicy-version>
     </sepolicy>
     <avb>
