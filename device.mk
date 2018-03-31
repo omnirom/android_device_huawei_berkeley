@@ -27,6 +27,10 @@ PRODUCT_COPY_FILES += \
 TARGET_SCREEN_HEIGHT := 2160
 TARGET_SCREEN_WIDTH := 1080
 
+# Audio
+PRODUCT_COPY_FILES += \
+    frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:system/etc/usb_audio_policy_configuration.xml
+
 # Device init scripts
 PRODUCT_PACKAGES += \
     init.kirin970.rc \
