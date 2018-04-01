@@ -45,3 +45,6 @@
 
 # VNDK
 /system/bin/vndk-detect    u:object_r:vndk_detect_exec:s0
+
+#pmom
+/dev/pmom                  u:object_r:pmom_cat:s0

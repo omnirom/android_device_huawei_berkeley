@@ -1,0 +1,1 @@
+allow pmom_cat device:chr_file read;

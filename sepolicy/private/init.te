@@ -11,4 +11,3 @@ allow init splash2_data_file:filesystem getattr;
 allow init device:chr_file { getattr };
 
 #allow init teecd_data_file:filesystem relabelto;
-
