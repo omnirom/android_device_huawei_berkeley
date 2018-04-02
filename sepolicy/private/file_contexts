@@ -47,7 +47,8 @@
 /system/bin/vndk-detect    u:object_r:vndk_detect_exec:s0
 
 # pmom
-/dev/pmom                  u:object_r:pmom_cat:s0
+/dev/pmom                  u:object_r:pmom_cat_device:s0
+/vendor/bin/pmom_cat       u:object_r:pmom_cat:s0
 
 # bfm
 /dev/hw_bfm                 u:object_r:bfm_device:s0
