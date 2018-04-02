@@ -118,9 +118,6 @@
     <!-- Slow brightness animation ramp rate in brightness units per second-->
     <integer translatable="false" name="config_brightness_ramp_rate_slow">60</integer>
 
-    <!-- Boolean indicating whether we want button brightness support -->
-    <bool name="config_button_brightness_support">true</bool>
-
     <!-- Minimum screen brightness setting allowed by the power manager.
          The user is forbidden from setting the brightness below this level. -->
     <integer name="config_screenBrightnessSettingMinimum">1</integer>
@@ -373,9 +370,6 @@
     <!-- Flag indicating if device supports EAP SIM, AKA, AKA' -->
     <bool name="config_eap_sim_based_auth_supported">false</bool>
 
-    <!-- Whether device supports double tap to wake -->
-    <bool name="config_supportDoubleTapWake">true</bool>
-
     <string-array name="config_mobile_tcp_buffers">
         <item>umts:131072,262144,1452032,4096,16384,399360</item>
         <item>hspa:131072,262144,2441216,4096,16384,399360</item>
@@ -480,6 +474,10 @@
 
     <integer translatable="false" name="config_wifi_wakeup_available">1</integer>
 
-     <string name="config_persistentDataPackageName" translatable="false"></string>
+    <!-- Whether a software navigation bar should be shown. NOTE: in the future this may be
+    autodetected from the Configuration. -->
+    <bool name="config_showNavigationBar">true</bool>
 
+    <!-- Enable system navigation keys. -->
+    <bool name="config_supportSystemNavigationKeys">true</bool>
 </resources>
