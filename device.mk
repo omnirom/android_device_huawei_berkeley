@@ -42,6 +42,10 @@ PRODUCT_PACKAGES += \
     Tag \
     com.android.nfc_extras \
     nfc_nci.pn54x.default
+    
+# Camera
+PRODUCT_PACKAGES += \
+    SnapdragonCamera2
 
 # Permissions
 PRODUCT_COPY_FILES += \
