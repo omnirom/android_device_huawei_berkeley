@@ -8,3 +8,4 @@ type logcat_data_file, core_data_file_type, data_file_type, file_type;
 type logcat_device, dev_type;
 type splash2_block_device, dev_type;
 type splash2_data_file, data_file_type, file_type;
+type pmom_cat, dev_type, data_file_type, file_type;
