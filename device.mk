@@ -99,3 +99,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     vndk-sp
+
+# dsp
+PRODUCT_COPY_FILES += \
+    device/huawei/berkeley/audio/audio_effects.conf:system/etc/audio_effects_vendor.conf
