@@ -36,13 +36,17 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     device/huawei/berkeley/compatibility_matrix.xml:system/compatibility_matrix.xml
 
+# Display
+PRODUCT_PACKAGES += \
+    HuaweiParts
+
 # NFC
 PRODUCT_PACKAGES += \
     NfcNci \
     Tag \
     com.android.nfc_extras \
     nfc_nci.pn54x.default
-    
+
 # Camera
 PRODUCT_PACKAGES += \
     SnapdragonCamera2
