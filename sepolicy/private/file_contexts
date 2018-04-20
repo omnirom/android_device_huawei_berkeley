@@ -41,10 +41,9 @@
 /data/log/fingerprint(/.*)?             u:object_r:logcat_data_file:s0
 
 # Secure storage
-/sec_storage            u:object_r:teecd_data_file:s0
 /sec_storage(/.*)?              u:object_r:teecd_data_file:s0
-/data/sec_storage_data          u:object_r:teecd_data_file:s0
-/data/sec_storage_data_users            u:object_r:teecd_data_file:s0
+/data/sec_storage_data(/.*)?          u:object_r:teecd_data_file:s0
+/data/sec_storage_data_users(/.*)?            u:object_r:teecd_data_file:s0
 
 # Splash2
 /dev/block/bootdevice/by-name/splash2           u:object_r:splash2_block_device:s0
