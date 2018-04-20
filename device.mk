@@ -91,6 +91,10 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     ro.build.version.release=$(PLATFORM_VERSION) \
     ro.build.version.sdk=$(PLATFORM_SDK_VERSION)
 
+# Release tools
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/releasetools/releasetools.kirin970.sh:system/bin/releasetools.kirin970.sh
+
 # Remove unwanted packages
 PRODUCT_PACKAGES += \
     RemovePackages
