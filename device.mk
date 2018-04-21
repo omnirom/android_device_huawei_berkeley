@@ -34,6 +34,7 @@ PRODUCT_COPY_FILES += \
 # Device init scripts
 PRODUCT_PACKAGES += \
     init.kirin970.rc \
+    init.kirin970.ab.rc \
     init.kirin970.omni.rc
 
 # Display
