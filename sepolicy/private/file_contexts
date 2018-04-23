@@ -1,3 +1,6 @@
+# Audio
+/system/etc/audio_policy.conf    u:object_r:vendor_configs_file:s0
+
 # Block Devices
 /dev/block/bootdevice/by-name/modem_om          u:object_r:make_ext4fs_blkdev:s0
 /dev/block/bootdevice/by-name/3rdmodem          u:object_r:thirdmodem_block_device:s0

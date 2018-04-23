@@ -19,6 +19,10 @@ $(call inherit-product-if-exists, vendor/gapps/arm64/arm64-vendor.mk)
 $(call inherit-product, vendor/omni/config/phone-xxhdpi-4096-dalvik-heap.mk)
 $(call inherit-product, vendor/omni/config/phone-xxhdpi-2048-hwui-memory.mk)
 
+# Audio
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf
+
 # Boot animation
 TARGET_SCREEN_HEIGHT := 2160
 TARGET_SCREEN_WIDTH := 1080
