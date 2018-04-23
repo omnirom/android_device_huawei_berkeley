@@ -14,3 +14,6 @@ allow init device:chr_file { getattr };
 
 allow init bfm_device:chr_file { getattr open ioctl write };
 
+# Allow init to mount audio configuration files
+allow init vendor_configs_file:file mounton;
+
