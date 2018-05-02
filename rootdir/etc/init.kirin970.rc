@@ -18,3 +18,8 @@ on property:sys.fpnav.enabled=1
     stop fps_hal_ext
     start fps_hal_ext
 
+service hisupl_service_local /vendor/bin/hw/vendor.huawei.hardware.hisupl@1.0-service
+    class hal
+    user system
+    group system
+    setenv LD_PRELOAD libshims_hisupl.so
