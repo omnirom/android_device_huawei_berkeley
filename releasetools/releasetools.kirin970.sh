@@ -16,6 +16,7 @@ if [ "$(grep ro.build.version.release /vendor/build.prop)" = "ro.build.version.r
     echo "(typeattributeset displayengine_hwservice_26_0 (displayengine_hwservice))" >> /system/etc/selinux/mapping/26.0.cil
 
     # Remove duplicated type definitions
+    sed -i "/(type check_root_prop)/d;/(roletype object_r check_root_prop)/d" /system/etc/selinux/plat_sepolicy.cil
     sed -i "/(type cust_data_file)/d;/(roletype object_r cust_data_file)/d" /system/etc/selinux/plat_sepolicy.cil
     sed -i "/(type dmd_device)/d;/(roletype object_r dmd_device)/d" /system/etc/selinux/plat_sepolicy.cil
     sed -i "/(type exception_device)/d;/(roletype object_r exception_device)/d" /system/etc/selinux/plat_sepolicy.cil
@@ -90,6 +91,9 @@ if [ "$(grep ro.build.version.release /vendor/build.prop)" = "ro.build.version.r
 
     # Remove duplicated labels (Splash2)
     sed -i "/\/splash2(\/.*)?/d" /system/etc/selinux/plat_file_contexts
+
+    # Remove duplicated properties
+    sed -i "/huawei.check.root./d" /system/etc/selinux/plat_property_contexts
 fi
 
 exit 0
