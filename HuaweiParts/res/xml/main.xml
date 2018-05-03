@@ -40,4 +40,15 @@
             android:summary="@string/high_touch_summary"
             android:title="@string/high_touch_title" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/colour_profiles">
+        <ListPreference
+            android:key="colour_profiles_key"
+            android:title="@string/colour_profiles"
+            android:entries="@array/colour_profiles_entries"
+            android:entryValues="@array/colour_profiles_values"
+            android:persistent="false" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
