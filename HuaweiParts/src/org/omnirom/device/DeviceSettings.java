@@ -48,9 +48,12 @@ public class DeviceSettings extends PreferenceFragment implements
     public static final String HIGH_TOUCH_MODE = "/sys/touchscreen/touch_glove";
     
     public static final String SLIDER_DEFAULT_VALUE = "4,2,0";
-    
+
+    public static final String COLOUR_PROFILES_KEY = "colour_profiles_key";
+
     private TwoStatePreference mFpGestures;
     private TwoStatePreference mHighTouch;
+    private ListPreference mColourProfiles;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -61,6 +64,11 @@ public class DeviceSettings extends PreferenceFragment implements
 
         mHighTouch = (TwoStatePreference) findPreference(KEY_HIGH_TOUCH);
         mHighTouch.setChecked(Utils.getFileValueAsBoolean(HIGH_TOUCH_MODE, false));
+
+        mColourProfiles = (ListPreference) findPreference(COLOUR_PROFILES_KEY);
+        mColourProfiles.setOnPreferenceChangeListener(this);
+        mColourProfiles.setValueIndex(0);
+        mColourProfiles.setSummary(mColourProfiles.getEntries()[0]);
 
     }
 
@@ -81,7 +89,15 @@ public class DeviceSettings extends PreferenceFragment implements
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-
+        if (preference == mColourProfiles) {
+            String value = (String) newValue;
+            int colourPofile = Integer.valueOf(value);
+            //setSliderAction(0, colourPofile);
+            DisplayModeControl.setMode(colourPofile, true);
+            
+            int valueIndex = mColourProfiles.findIndexOfValue(value);
+            mColourProfiles.setSummary(mColourProfiles.getEntries()[valueIndex]);
+        }
         return true;
     }
 }
