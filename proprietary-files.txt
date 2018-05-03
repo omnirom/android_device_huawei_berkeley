@@ -1,3 +1,7 @@
+# SmartDisplay
+lib/libhwsmartdisplay_jni.so
+lib64/libhwsmartdisplay_jni.so
+
 # VNDK
 lib/android.frameworks.schedulerservice@1.0.so:lib/vndk-compat/android.frameworks.schedulerservice@1.0.so
 lib/android.frameworks.sensorservice@1.0.so:lib/vndk-compat/android.frameworks.sensorservice@1.0.so
