@@ -95,4 +95,9 @@
     <string name="touchscreen_title">TouchScreen</string>
     <string name="high_touch_summary">Allow to use touchscreen with gloves</string>
     <string name="high_touch_title">High Touch Sensitivity</string>
+
+    <string name="colour_profiles">Colour Profiles</string>
+    <string name="colour_profile_normal">Normal</string>
+    <string name="colour_profile_vivid">Vivid</string>
+
 </resources>
