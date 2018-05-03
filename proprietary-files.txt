@@ -1,3 +1,9 @@
+# Display engine
+bin/displayengineserver
+etc/init/displayengineserver.rc
+lib/libdisplayengineservice.so
+lib64/libdisplayengineservice.so
+
 # SmartDisplay
 lib/libhwsmartdisplay_jni.so
 lib64/libhwsmartdisplay_jni.so
