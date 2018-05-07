@@ -96,6 +96,10 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     ro.build.version.sdk=$(PLATFORM_SDK_VERSION) \
     ro.cust.cdrom=/dev/null
 
+# Radio
+PRODUCT_PACKAGES += \
+    qti-telephony-common
+
 # Release tools
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/releasetools/releasetools.kirin970.sh:system/bin/releasetools.kirin970.sh
