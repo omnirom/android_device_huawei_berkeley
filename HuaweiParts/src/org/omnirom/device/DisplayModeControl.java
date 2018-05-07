@@ -21,6 +21,7 @@ import android.util.Log;
 import com.android.server.display.DisplayEngineService;
 import com.android.server.display.DisplayEngineService_V1_0;
 import com.android.server.display.DisplayEngineService_V1_1;
+import com.android.server.HwSmartDisplayService;
 
 /*
  * Display Modes API
