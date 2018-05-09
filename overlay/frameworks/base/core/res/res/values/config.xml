@@ -501,4 +501,5 @@
         <item>"/system/framework/arm64/boot-core-libart.vdex"</item>
     </string-array>
 
+    <bool name="config_proxiSensorWakupCheck">true</bool>
 </resources>
