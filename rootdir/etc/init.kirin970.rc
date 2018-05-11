@@ -41,3 +41,12 @@ on property:init.svc.displayengine-hal-1-0=*
 
 on property:init.svc.displayengine-hal-1-1=*
     start dpeservice-1.1
+
+# adb over network
+on property:service.adb.tcp.port=5555
+    stop adbd
+    start adbd
+
+on property:service.adb.tcp.port=-1
+    stop adbd
+    start adbd
