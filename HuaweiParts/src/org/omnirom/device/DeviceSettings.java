@@ -19,6 +19,7 @@ package org.omnirom.device;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.res.Resources;
 import android.content.Intent;
 import android.os.Bundle;
@@ -93,8 +94,10 @@ public class DeviceSettings extends PreferenceFragment implements
             String value = (String) newValue;
             int colourPofile = Integer.valueOf(value);
             //setSliderAction(0, colourPofile);
-            DisplayModeControl.setMode(colourPofile, true);
-            
+            DisplayModeControl.setMode(colourPofile);
+
+            Utils.writePreference(getContext(), COLOUR_PROFILES_KEY, value);
+
             int valueIndex = mColourProfiles.findIndexOfValue(value);
             mColourProfiles.setSummary(mColourProfiles.getEntries()[valueIndex]);
         }

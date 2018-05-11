@@ -17,6 +17,10 @@
 */
 package org.omnirom.device;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -100,5 +104,16 @@ public class Utils {
             return fileValue;
         }
         return defValue;
+    }
+
+    public static void writePreference(Context context, String key, String value) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    public static String getPreference(Context context, String key, String defaultValue) {
+        String value = PreferenceManager.getDefaultSharedPreferences(context).getString(key, defaultValue);
+        return value;
     }
 }
