@@ -96,6 +96,9 @@ public class DeviceSettings extends PreferenceFragment implements
             //setSliderAction(0, colourPofile);
             DisplayModeControl.setMode(colourPofile);
 
+            // 2 : COLOR_ENHANCEMENT (1 : Eye Comfort)
+            DisplayModeControl.sHwSmartDisplayService.nativeSetSmartDisplay(2, colourPofile);
+
             Utils.writePreference(getContext(), COLOUR_PROFILES_KEY, value);
 
             int valueIndex = mColourProfiles.findIndexOfValue(value);
