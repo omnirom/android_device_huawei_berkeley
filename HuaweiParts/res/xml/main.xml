@@ -51,4 +51,17 @@
             android:persistent="false" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/colour_temperature">
+        <org.omnirom.device.ColourTempPreference
+            android:key="colour_temp_key"
+            android:title="@string/colour_temperature"
+            android:summary="@string/colour_temperature" />
+
+        <org.omnirom.device.preference.ColorSelectPreference
+            android:key="colour_temp_rgb_key"
+            ledPreview="false"
+            android:title="@string/colour_temperature_rgb"
+            android:persistent="false" />
+    </PreferenceCategory>
 </PreferenceScreen>

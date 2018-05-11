@@ -11,6 +11,8 @@ binder_use(displayengineserver)
 # Allow binder communication with surfaceflinger
 binder_call(displayengineserver, surfaceflinger)
 
+binder_call(displayengineserver, system_app)
+
 # Allow displayengineserver to read and execute vendor_file
 allow displayengineserver vendor_file:file rx_file_perms;
 

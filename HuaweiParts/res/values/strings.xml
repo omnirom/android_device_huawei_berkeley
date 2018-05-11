@@ -14,6 +14,8 @@
      limitations under the License.
 -->
 <resources>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="app_name">Oneplus 3</string>
     <string name="category_gestures_title">Gestures Options</string>
     <string name="category_vibrator">Vibrator</string>
@@ -100,4 +102,9 @@
     <string name="colour_profile_normal">Normal</string>
     <string name="colour_profile_vivid">Vivid</string>
 
+    <string name="colour_temperature">Colour Temperature</string>
+    <string name="colour_temperature_rgb">Colour Temperature RGB</string>
+    <string name="led_color_green">Green</string>
+    <string name="led_color_red">Red</string>
+    <string name="led_color_blue">Blue</string>
 </resources>
