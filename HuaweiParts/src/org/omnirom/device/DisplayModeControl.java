@@ -19,11 +19,8 @@ package org.omnirom.device;
 import android.os.SystemProperties;
 import android.util.Log;
 import com.android.server.display.DisplayEngineService;
-import com.android.server.display.DisplayEngineService;
 import com.android.server.display.DisplayEngineService_V1_0;
 import com.android.server.display.DisplayEngineService_V1_1;
-import lineageos.hardware.DisplayMode;
-import org.lineageos.internal.util.FileUtils;
 
 /*
  * Display Modes API
@@ -38,11 +35,6 @@ import org.lineageos.internal.util.FileUtils;
  */
 
 public class DisplayModeControl {
-    private static final String DEFAULT_PATH = "/data/misc/.displaymodedefault";
-    private static final DisplayMode[] DISPLAY_MODES = {
-        new DisplayMode(0, "Normal"),
-        new DisplayMode(1, "Vivid"),
-    };
 
     private static final String DISPLAY_ENGINE_V1_0_PROP = "init.svc.displayengine-hal-1-0";
     private static final String DISPLAY_ENGINE_V1_1_PROP = "init.svc.displayengine-hal-1-1";
@@ -61,51 +53,23 @@ public class DisplayModeControl {
 
             sDisplayEngineService.enablePowerMode(true);
 
-            if (FileUtils.isFileReadable(DEFAULT_PATH)) {
-                setMode(getDefaultMode(), false);
-            } else {
-                /* If default mode is not set yet, set current mode as default */
-                setMode(getCurrentMode(), true);
-            }
+            setMode(getDefaultMode());
+
         } catch (Throwable t) {
             // Ignore, DisplayEngineService not available.
         }
     }
 
-    /*
-     * All HAF classes should export this boolean.
-     * Real implementations must, of course, return true
-     */
-    public static boolean isSupported() {
-        return sDisplayEngineService != null &&
-                sDisplayEngineService.isColorModeSupported() &&
-                FileUtils.isFileWritable(DEFAULT_PATH) &&
-                FileUtils.isFileReadable(DEFAULT_PATH);
-    }
-
-    /*
-     * Get the list of available modes. A mode has an integer
-     * identifier and a string name.
-     *
-     * It is the responsibility of the upper layers to
-     * map the name to a human-readable format or perform translation.
-     */
-    public static DisplayMode[] getAvailableModes() {
-        if (sDisplayEngineService == null) {
-            return new DisplayMode[0];
-        }
-        return DISPLAY_MODES;
-    }
 
     /*
      * Get the name of the currently selected mode. This can return
      * null if no mode is selected.
      */
-    public static DisplayMode getCurrentMode() {
+    public static int getCurrentMode() {
         if (sDisplayEngineService == null) {
-            return null;
+            return -1;
         }
-        return DISPLAY_MODES[sColorEnhancementCurrentMode];
+        return sColorEnhancementCurrentMode;
     }
 
     /*
@@ -114,19 +78,17 @@ public class DisplayModeControl {
      * failure. It is up to the implementation to determine
      * if this mode is valid.
      */
-    public static boolean setMode(DisplayMode mode, boolean makeDefault) {
+    public static boolean setMode(int mode) {
         if (sDisplayEngineService == null) {
             return false;
         }
-        sColorEnhancementCurrentMode = mode.id;
+        sColorEnhancementCurrentMode = mode;
         if (sColorEnhancementCurrentMode == 0) {
             sDisplayEngineService.enableColorMode(false);
         } else if (sColorEnhancementCurrentMode == 1) {
             sDisplayEngineService.enableColorMode(true);
         }
-        if (makeDefault) {
-            FileUtils.writeLine(DEFAULT_PATH, String.valueOf(sColorEnhancementCurrentMode));
-        }
+
         return true;
     }
 
@@ -134,15 +96,15 @@ public class DisplayModeControl {
      * Gets the preferred default mode for this device by it's
      * string identifier. Can return null if there is no default.
      */
-    public static DisplayMode getDefaultMode() {
+    public static int getDefaultMode() {
         if (sDisplayEngineService == null) {
-            return null;
+            return -1;
         }
         try {
-            int mode = Integer.parseInt(FileUtils.readOneLine(DEFAULT_PATH));
-            return DISPLAY_MODES[mode];
+            //int mode = Integer.parseInt(Utils.getPreference(getApplicationContext(), DeviceSettings.COLOUR_PROFILES_KEY, "0"));
+            return 0;
         } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-            return null;
+            return -1;
         }
     }
 }
