@@ -39,7 +39,7 @@ public class DisplayModeControl {
     private static final String DISPLAY_ENGINE_V1_0_PROP = "init.svc.displayengine-hal-1-0";
     private static final String DISPLAY_ENGINE_V1_1_PROP = "init.svc.displayengine-hal-1-1";
 
-    private static DisplayEngineService sDisplayEngineService;
+    public static DisplayEngineService sDisplayEngineService;
     private static int sColorEnhancementCurrentMode;
 
     static {
@@ -50,7 +50,7 @@ public class DisplayModeControl {
                 sDisplayEngineService = new DisplayEngineService_V1_1();
             }
             sColorEnhancementCurrentMode = 0;
-
+            sDisplayEngineService.setBootComplete(true);
             sDisplayEngineService.enablePowerMode(true);
 
             setMode(getDefaultMode());
