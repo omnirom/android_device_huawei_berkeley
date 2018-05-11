@@ -41,6 +41,7 @@ public class DisplayModeControl {
 
     public static DisplayEngineService sDisplayEngineService;
     private static int sColorEnhancementCurrentMode;
+    public static HwSmartDisplayService sHwSmartDisplayService;
 
     static {
         try {
@@ -49,6 +50,10 @@ public class DisplayModeControl {
             } else if (SystemProperties.get(DISPLAY_ENGINE_V1_1_PROP, "") != "") {
                 sDisplayEngineService = new DisplayEngineService_V1_1();
             }
+
+            sHwSmartDisplayService = new HwSmartDisplayService();
+            sHwSmartDisplayService.init_native();
+
             sColorEnhancementCurrentMode = 0;
             sDisplayEngineService.setBootComplete(true);
             sDisplayEngineService.enablePowerMode(true);
