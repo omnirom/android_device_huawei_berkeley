@@ -502,4 +502,6 @@
     </string-array>
 
     <bool name="config_proxiSensorWakupCheck">true</bool>
+
+    <bool name="config_haveHigherAspectRatioScreen">true</bool>
 </resources>
