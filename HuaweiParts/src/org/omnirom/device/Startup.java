@@ -29,9 +29,14 @@ import android.text.TextUtils;
 public class Startup extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, final Intent bootintent) {
+
+        context.startService(new Intent(context, ScreenStateService.class));
+
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         SystemProperties.set(DeviceSettings.FPNAV_ENABLED_PROP, sharedPrefs.getBoolean(DeviceSettings.KEY_FP_GESTURES, false) ? "1" : "0");
         Utils.writeValue(DeviceSettings.HIGH_TOUCH_MODE, sharedPrefs.getBoolean(DeviceSettings.KEY_HIGH_TOUCH, false) ? "1" : "0");
+
+        DisplayModeControl.sDisplayEngineService.setBootComplete(true);
 
         DisplayModeControl.setMode(Integer.parseInt(Utils.getPreference(context, DeviceSettings.COLOUR_PROFILES_KEY, "0")));
         DisplayModeControl.mHwPowerManager.nativeSetColorTemperature(Integer.parseInt(Utils.getPreference(context, DeviceSettings.COLOUR_TEMP_KEY, "128")));
