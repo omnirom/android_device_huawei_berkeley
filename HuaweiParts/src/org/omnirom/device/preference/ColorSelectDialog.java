@@ -21,9 +21,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.InputFilter;
@@ -43,12 +45,13 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.android.server.power.HwPowerManagerService;
-
 import org.omnirom.device.ui.ColorPanelView;
 import org.omnirom.device.ui.ColorPickerView;
 import org.omnirom.device.ui.ColorPickerView.OnColorChangedListener;
 import org.omnirom.device.R;
+import org.omnirom.device.DeviceSettings;
+import org.omnirom.device.DisplayModeControl;
+import org.omnirom.device.Utils;
 
 import java.util.ArrayList;
 import java.util.IllegalFormatException;
@@ -74,20 +77,20 @@ public class ColorSelectDialog extends AlertDialog implements
 
     private NotificationManager mNoMan;
     private Context mContext;
-    
-    private HwPowerManagerService mHwPowerManager;
 
     protected ColorSelectDialog(Context context, int initialColor) {
         super(context);
         mContext = context;
-        mHwPowerManager = new HwPowerManagerService(context);
         mWithAlpha = false;
-        init(initialColor);
+        init(Integer.parseInt(Utils.getPreference(getContext(), DeviceSettings.COLOUR_TEMP_RGB_KEY, "-1")));
     }
 
     private void init(int color) {
         // To fight color banding.
         getWindow().setFormat(PixelFormat.RGBA_8888);
+        if (color == -1) {
+            color = 0xFF000000;
+        }
         setUp(color);
     }
 
@@ -171,10 +174,11 @@ public class ColorSelectDialog extends AlertDialog implements
 
         mNewColor.setColor(color);
         mHexColorInput.setText(String.format(Locale.US, format, color & mask));
-        
+
         long packedColor = Color.pack(color);
-        
-        mHwPowerManager.nativeUpdateRgbGamma(Color.red(packedColor), Color.green(packedColor), Color.blue(packedColor));
+
+        DisplayModeControl.mHwPowerManager.nativeUpdateRgbGamma(Color.red(packedColor), Color.green(packedColor), Color.blue(packedColor));
+        Utils.writePreference(getContext(), DeviceSettings.COLOUR_TEMP_RGB_KEY, String.valueOf(color));
     }
 
 

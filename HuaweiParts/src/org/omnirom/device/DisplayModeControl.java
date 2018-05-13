@@ -22,6 +22,7 @@ import com.android.server.display.DisplayEngineService;
 import com.android.server.display.DisplayEngineService_V1_0;
 import com.android.server.display.DisplayEngineService_V1_1;
 import com.android.server.HwSmartDisplayService;
+import com.android.server.power.HwPowerManagerService;
 
 /*
  * Display Modes API
@@ -43,6 +44,7 @@ public class DisplayModeControl {
     public static DisplayEngineService sDisplayEngineService;
     private static int sColorEnhancementCurrentMode;
     public static HwSmartDisplayService sHwSmartDisplayService;
+    public static HwPowerManagerService mHwPowerManager;
 
     static {
         try {
@@ -55,11 +57,11 @@ public class DisplayModeControl {
             sHwSmartDisplayService = new HwSmartDisplayService();
             sHwSmartDisplayService.init_native();
 
+            mHwPowerManager = new HwPowerManagerService();
+
             sColorEnhancementCurrentMode = 0;
             sDisplayEngineService.setBootComplete(true);
             sDisplayEngineService.enablePowerMode(true);
-
-            setMode(getDefaultMode());
 
         } catch (Throwable t) {
             // Ignore, DisplayEngineService not available.
@@ -96,21 +98,5 @@ public class DisplayModeControl {
         }
 
         return true;
-    }
-
-    /*
-     * Gets the preferred default mode for this device by it's
-     * string identifier. Can return null if there is no default.
-     */
-    public static int getDefaultMode() {
-        if (sDisplayEngineService == null) {
-            return -1;
-        }
-        try {
-            //int mode = Integer.parseInt(Utils.getPreference(getApplicationContext(), DeviceSettings.COLOUR_PROFILES_KEY, "0"));
-            return 0;
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-            return -1;
-        }
     }
 }

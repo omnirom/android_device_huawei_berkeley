@@ -32,5 +32,11 @@ public class Startup extends BroadcastReceiver {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         SystemProperties.set(DeviceSettings.FPNAV_ENABLED_PROP, sharedPrefs.getBoolean(DeviceSettings.KEY_FP_GESTURES, false) ? "1" : "0");
         Utils.writeValue(DeviceSettings.HIGH_TOUCH_MODE, sharedPrefs.getBoolean(DeviceSettings.KEY_HIGH_TOUCH, false) ? "1" : "0");
+
+        DisplayModeControl.setMode(Integer.parseInt(Utils.getPreference(context, DeviceSettings.COLOUR_PROFILES_KEY, "0")));
+        DisplayModeControl.mHwPowerManager.nativeSetColorTemperature(Integer.parseInt(Utils.getPreference(context, DeviceSettings.COLOUR_TEMP_KEY, "128")));
+
+        long packedColor = Color.pack(Integer.parseInt(Utils.getPreference(context, DeviceSettings.COLOUR_TEMP_RGB_KEY, "0xFF000000")));
+        DisplayModeControl.mHwPowerManager.nativeUpdateRgbGamma(Color.red(packedColor), Color.green(packedColor), Color.blue(packedColor));
     }
 }
