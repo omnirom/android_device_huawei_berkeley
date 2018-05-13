@@ -31,31 +31,28 @@ import android.widget.Button;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.android.server.power.HwPowerManagerService;
-
 public class ColourTempPreference extends Preference implements
         SeekBar.OnSeekBarChangeListener {
 
     private SeekBar mSeekBar;
     private int mMinValue;
     private int mMaxValue;
-    
-    private HwPowerManagerService mHwPowerManager;
 
+    private Context mContext;
 
     public ColourTempPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         mMinValue = 0;
         mMaxValue = 255;
         setLayoutResource(R.layout.preference_seek_bar);
-        mHwPowerManager = new HwPowerManagerService(context);
     }
 
     @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
-        int mOldStrength = getValue();
+        int mOldStrength = getValue(mContext);
         mSeekBar = (SeekBar) holder.findViewById(R.id.seekbar);
         mSeekBar.setMax(255);
         mSeekBar.setProgress(mOldStrength);
@@ -66,12 +63,13 @@ public class ColourTempPreference extends Preference implements
         return true; //Utils.fileWritable(FILE_LEVEL);
     }
 
-	public static int getValue() {
-		return 128;
+	public static int getValue(Context context) {
+		return Integer.parseInt(Utils.getPreference(context, DeviceSettings.COLOUR_TEMP_KEY, "128"));
 	}
 
 	private void setValue(int newValue) {
-	    mHwPowerManager.nativeSetColorTemperature(newValue);
+	    DisplayModeControl.mHwPowerManager.nativeSetColorTemperature(newValue);
+	    Utils.writePreference(getContext(), DeviceSettings.COLOUR_TEMP_KEY, String.valueOf(newValue));
 	}
 
     public static void restore(Context context) {

@@ -28,24 +28,11 @@ public class HwPowerManagerService {
     public native int nativeSetColorTemperature(int color);
     public native int nativeUpdateRgbGamma(float r, float g, float b);
 
-    private Context mContext;
-    //private DisplayEffectMonitor mDisplayEffectMonitor;
-    //private DisplayEngineManager mDisplayEngineManager;
-
     static {
         System.loadLibrary("hwpwmanager_jni");
     }
 
-    public HwPowerManagerService(Context context) {
-        //super(context);
-        this.mContext = context;
-        //this.mDisplayEffectMonitor = DisplayEffectMonitor.getInstance(this.mContext);
-        //if (this.mDisplayEffectMonitor == null) {
-        //    Slog.e(TAG, "getDisplayEffectMonitor failed!");
-        //}
-
+    public HwPowerManagerService() {
         init_native();
-
-        //this.mDisplayEngineManager = DisplayModeControl.sDisplayEngineService;
     }
 }
