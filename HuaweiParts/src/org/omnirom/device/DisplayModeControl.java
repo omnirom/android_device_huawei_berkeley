@@ -60,8 +60,6 @@ public class DisplayModeControl {
             mHwPowerManager = new HwPowerManagerService();
 
             sColorEnhancementCurrentMode = 0;
-            sDisplayEngineService.setBootComplete(true);
-            sDisplayEngineService.enablePowerMode(true);
 
         } catch (Throwable t) {
             // Ignore, DisplayEngineService not available.
