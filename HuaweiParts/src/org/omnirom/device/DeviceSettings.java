@@ -51,6 +51,8 @@ public class DeviceSettings extends PreferenceFragment implements
     public static final String SLIDER_DEFAULT_VALUE = "4,2,0";
 
     public static final String COLOUR_PROFILES_KEY = "colour_profiles_key";
+    public static final String COLOUR_TEMP_KEY = "colour_temp_key";
+    public static final String COLOUR_TEMP_RGB_KEY = "colour_temp_rgb_key";
 
     private TwoStatePreference mFpGestures;
     private TwoStatePreference mHighTouch;
@@ -68,15 +70,16 @@ public class DeviceSettings extends PreferenceFragment implements
 
         mColourProfiles = (ListPreference) findPreference(COLOUR_PROFILES_KEY);
         mColourProfiles.setOnPreferenceChangeListener(this);
-        mColourProfiles.setValueIndex(0);
-        mColourProfiles.setSummary(mColourProfiles.getEntries()[0]);
+        int index = Integer.parseInt(Utils.getPreference(getContext(), DeviceSettings.COLOUR_PROFILES_KEY, "0"));
+        mColourProfiles.setValueIndex(index);
+        mColourProfiles.setSummary(mColourProfiles.getEntries()[index]);
 
     }
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
         if (preference == mFpGestures) {
-        
+
             SystemProperties.set(FPNAV_ENABLED_PROP, mFpGestures.isChecked() ? "1" : "0");
 
             return true;
