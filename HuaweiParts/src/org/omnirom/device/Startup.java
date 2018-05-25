@@ -35,8 +35,7 @@ public class Startup extends BroadcastReceiver {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         SystemProperties.set(DeviceSettings.FPNAV_ENABLED_PROP, sharedPrefs.getBoolean(DeviceSettings.KEY_FP_GESTURES, false) ? "1" : "0");
-        Utils.writeValue(DeviceSettings.HIGH_TOUCH_MODE, sharedPrefs.getBoolean(DeviceSettings.KEY_HIGH_TOUCH, false) ? "1" : "0");
-
+        DisplayModeControl.mExtTouchScreen.hwTsSetCoverMode(sharedPrefs.getBoolean(DeviceSettings.KEY_HIGH_TOUCH, false));
         DisplayModeControl.sDisplayEngineService.setBootComplete(true);
 
         DisplayModeControl.setMode(Integer.parseInt(Utils.getPreference(context, DeviceSettings.COLOUR_PROFILES_KEY, "0")));
