@@ -24,6 +24,8 @@ import com.android.server.display.DisplayEngineService_V1_1;
 import com.android.server.HwSmartDisplayService;
 import com.android.server.power.HwPowerManagerService;
 
+import vendor.huawei.hardware.tp.V1_0.ExtTouchScreen;
+
 /*
  * Display Modes API
  *
@@ -45,6 +47,7 @@ public class DisplayModeControl {
     private static int sColorEnhancementCurrentMode;
     public static HwSmartDisplayService sHwSmartDisplayService;
     public static HwPowerManagerService mHwPowerManager;
+    public static ExtTouchScreen mExtTouchScreen;
 
     static {
         try {
@@ -58,6 +61,8 @@ public class DisplayModeControl {
             sHwSmartDisplayService.init_native();
 
             mHwPowerManager = new HwPowerManagerService();
+            
+            mExtTouchScreen = new ExtTouchScreen();
 
             sColorEnhancementCurrentMode = 0;
 
