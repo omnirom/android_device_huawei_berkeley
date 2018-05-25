@@ -85,7 +85,7 @@ public class DeviceSettings extends PreferenceFragment implements
             return true;
         }
         else if (preference == mHighTouch) {
-            Utils.writeValue(HIGH_TOUCH_MODE, mHighTouch.isChecked() ? "1" : "0");
+            DisplayModeControl.mExtTouchScreen.hwTsSetCoverMode(mHighTouch.isChecked());
             return true;
         }
         return super.onPreferenceTreeClick(preference);
