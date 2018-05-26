@@ -77,21 +77,26 @@ public class ColorSelectDialog extends AlertDialog implements
 
     private NotificationManager mNoMan;
     private Context mContext;
+    private int mInitialColor;
 
-    protected ColorSelectDialog(Context context, int initialColor) {
+    protected ColorSelectDialog(Context context) {
         super(context);
         mContext = context;
         mWithAlpha = false;
-        init(Integer.parseInt(Utils.getPreference(getContext(), DeviceSettings.COLOUR_TEMP_RGB_KEY, "-1")));
+        mInitialColor = Integer.parseInt(Utils.getPreference(getContext(), DeviceSettings.COLOUR_TEMP_RGB_KEY, "FFFFFF"));
+        init(mInitialColor);
     }
 
     private void init(int color) {
         // To fight color banding.
         getWindow().setFormat(PixelFormat.RGBA_8888);
-        if (color == -1) {
-            color = 0xFF000000;
-        }
         setUp(color);
+    }
+
+    public void resetColor() {
+        long packedColor = Color.pack(mInitialColor);
+        DisplayModeControl.mHwPowerManager.nativeUpdateRgbGamma(Color.red(packedColor), Color.green(packedColor), Color.blue(packedColor));
+        Utils.writePreference(getContext(), DeviceSettings.COLOUR_TEMP_RGB_KEY, String.valueOf(mInitialColor));
     }
 
     /**

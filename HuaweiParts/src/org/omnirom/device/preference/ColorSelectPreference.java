@@ -107,8 +107,7 @@ public class ColorSelectPreference extends Preference implements DialogInterface
     }
 
     public Dialog getDialog() {
-        final ColorSelectDialog d = new ColorSelectDialog(getContext(),
-                0xFF000000 | mColorValue);
+        final ColorSelectDialog d = new ColorSelectDialog(getContext());
 
         d.setButton(AlertDialog.BUTTON_POSITIVE, mResources.getString(R.string.ok),
                 new DialogInterface.OnClickListener() {
@@ -128,7 +127,7 @@ public class ColorSelectPreference extends Preference implements DialogInterface
                 new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                
+                d.resetColor();
             }
         });
 
