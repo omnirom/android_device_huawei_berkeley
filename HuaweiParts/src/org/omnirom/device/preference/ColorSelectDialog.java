@@ -88,9 +88,6 @@ public class ColorSelectDialog extends AlertDialog implements
     private void init(int color) {
         // To fight color banding.
         getWindow().setFormat(PixelFormat.RGBA_8888);
-        if (color == -1) {
-            color = 0xFF000000;
-        }
         setUp(color);
     }
 
