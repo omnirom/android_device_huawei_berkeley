@@ -1,6 +1,7 @@
 # Audio
 audio.deep_buffer.media=true
 
-# Enable ADB authentication
-ro.adb.secure=1
+# workaround for broken sdcardfs
+persist.sys.sdcardfs=force_off
+
 
