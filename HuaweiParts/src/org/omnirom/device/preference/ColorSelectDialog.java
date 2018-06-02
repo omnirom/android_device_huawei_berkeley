@@ -83,7 +83,8 @@ public class ColorSelectDialog extends AlertDialog implements
         super(context);
         mContext = context;
         mWithAlpha = false;
-        mInitialColor = Integer.parseInt(Utils.getPreference(getContext(), DeviceSettings.COLOUR_TEMP_RGB_KEY, "FFFFFF"));
+        mInitialColor = Integer.parseInt(Utils.getPreference(getContext(), DeviceSettings.COLOUR_TEMP_RGB_KEY,
+                String.valueOf(0xFFFFFF)));
         init(mInitialColor);
     }
 

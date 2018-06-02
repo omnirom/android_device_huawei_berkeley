@@ -41,7 +41,8 @@ public class Startup extends BroadcastReceiver {
         DisplayModeControl.setMode(Integer.parseInt(Utils.getPreference(context, DeviceSettings.COLOUR_PROFILES_KEY, "0")));
         DisplayModeControl.mHwPowerManager.nativeSetColorTemperature(Integer.parseInt(Utils.getPreference(context, DeviceSettings.COLOUR_TEMP_KEY, "128")));
 
-        long packedColor = Color.pack(Integer.parseInt(Utils.getPreference(context, DeviceSettings.COLOUR_TEMP_RGB_KEY, "FFFFFF")));
+        long packedColor = Color.pack(Integer.parseInt(Utils.getPreference(context, DeviceSettings.COLOUR_TEMP_RGB_KEY,
+                String.valueOf(0xFFFFFF))));
         DisplayModeControl.mHwPowerManager.nativeUpdateRgbGamma(Color.red(packedColor), Color.green(packedColor), Color.blue(packedColor));
     }
 }
