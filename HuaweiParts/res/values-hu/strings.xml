@@ -55,7 +55,7 @@
   <string name="category_up_arrow_gesture">A gesztus</string>
   <string name="category_left_arrow_gesture">&lt; gesztus</string>
   <string name="category_right_arrow_gesture">&gt; gesztus</string>
-  <string name="category_gestures_summary">Ujjlenyomat geszusokhoz beállítható műveletek</string>
+  <string name="category_gestures_summary">Ujjlenyomat gesztusokhoz beállítható műveletek</string>
   <string name="torch_entry">Zseblámpa</string>
   <string name="disabled_entry">Letiltva</string>
   <string name="camera_entry">Kamera</string>

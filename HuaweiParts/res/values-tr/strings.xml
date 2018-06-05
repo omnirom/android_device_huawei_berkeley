@@ -28,7 +28,7 @@
   <string name="category_slider">Kaydırak</string>
   <string name="slider_mode_title">Kaydırak modu</string>
   <string name="buttons_title">Düğmeler</string>
-  <string name="swap_back_recents_title">Geri ve son uygulamalar düğmesini mübadele edin</string>
+  <string name="swap_back_recents_title">Geri ve son uygulamalar düğmesini değiş tokuş et</string>
   <string name="graphics_title">Grafikler</string>
   <string name="srgb_mode_title">sRGB modu</string>
   <string name="hbm_mode_title">Yüksek parlaklık modu</string>
