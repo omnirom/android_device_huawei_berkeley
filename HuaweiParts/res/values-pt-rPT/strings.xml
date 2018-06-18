@@ -82,7 +82,7 @@
   <string name="category_fp_left_swipe_gesture">Deslizar para a esquerda no sensor de impressões digitais</string>
   <string name="category_fp_long_press_gesture">Pressão longa no sensor de impressões digitais</string>
   <string name="category_fp_tap_gesture">Toque no sensor de impressões digitais</string>
-  <string name="category_fp_dtap_gesture">Duplo toque no sensor de impressões digitais</string>
+  <string name="category_fp_dtap_gesture">Toque duplo no sensor de impressões digitais</string>
   <string name="fp_swipe_down_switch_summary_head">Gesto de deslizar para baixo no sensor de impressões digitais quando no painel de notificações</string>
   <string name="fp_swipe_down_switch_title_head">Gesto de deslizar para baixo no sensor de impressões digitais</string>
   <string name="fp_gestures_title">Gestos de impressão digital</string>
