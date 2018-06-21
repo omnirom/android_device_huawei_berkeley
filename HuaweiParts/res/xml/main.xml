@@ -14,6 +14,17 @@
      limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="doze_category"
+        android:title="@string/doze_category_title"
+        android:summary="@string/doze_category_summary"
+        android:persistent="false" >
+        <intent android:action="android.intent.action.MAIN"
+                android:targetPackage="org.omnirom.device"
+                android:targetClass="org.omnirom.device.DozeSettingsActivity" />
+    </Preference>
+
     <PreferenceCategory
         android:title="@string/fp_gestures_title">
         <SwitchPreference
