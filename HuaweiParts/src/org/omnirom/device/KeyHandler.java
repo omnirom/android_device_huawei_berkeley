@@ -108,7 +108,7 @@ public class KeyHandler implements DeviceKeyHandler {
     private WakeLock mGestureWakeLock;
     private Handler mHandler = new Handler();
     private SettingsObserver mSettingsObserver;
-    private static boolean mButtonDisabled;
+    private boolean mButtonDisabled;
     private final NotificationManager mNoMan;
     private final AudioManager mAudioManager;
     private SensorManager mSensorManager;
@@ -189,7 +189,9 @@ public class KeyHandler implements DeviceKeyHandler {
         }
 
         public void update() {
-            //setButtonDisable(mContext);
+            mButtonDisabled = Settings.System.getIntForUser(
+                    context.getContentResolver(), Settings.System.HARDWARE_KEYS_DISABLE, 0,
+                    UserHandle.USER_CURRENT) == 1;
             mUseProxiCheck = Settings.System.getIntForUser(
                     mContext.getContentResolver(), Settings.System.DEVICE_PROXI_CHECK_ENABLED, 1,
                     UserHandle.USER_CURRENT) == 1;
@@ -244,7 +246,7 @@ public class KeyHandler implements DeviceKeyHandler {
         int fpcode = event.getScanCode();
         mFPcheck = canHandleKeyEvent(event);
         String value = getGestureValueForFPScanCode(fpcode);
-        if (mFPcheck && mDispOn && !TextUtils.isEmpty(value) && !value.equals(AppSelectListPreference.DISABLED_ENTRY)){
+        if (mFPcheck && mDispOn && !TextUtils.isEmpty(value) && !value.equals(AppSelectListPreference.DISABLED_ENTRY) && !mButtonDisabled){
             isFpgesture = true;
             if (!launchSpecialActions(value) && !isCameraLaunchEvent(event)) {
                     vibe();
