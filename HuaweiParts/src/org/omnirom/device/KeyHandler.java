@@ -25,6 +25,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.ContentObserver;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -64,12 +67,16 @@ public class KeyHandler implements DeviceKeyHandler {
 
     private static final String TAG = "KeyHandler";
     private static final boolean DEBUG = true;
-    private static final boolean DEBUG_SENSOR = false;
+    private static final boolean DEBUG_SENSOR = true;
 
     protected static final int GESTURE_REQUEST = 1;
     private static final int GESTURE_WAKELOCK_DURATION = 2000;
 
+    private static final int BATCH_LATENCY_IN_MS = 100;
+    private static final int MIN_PULSE_INTERVAL_MS = 2500;
     private static final String DOZE_INTENT = "com.android.systemui.doze.pulse";
+    private static final int HANDWAVE_MAX_DELTA_MS = 1000;
+    private static final int POCKET_MIN_DELTA_MS = 5000;
 
     private static final int FP_GESTURE_SWIPE_LEFT = 106;
     private static final int FP_GESTURE_SWIPE_RIGHT = 105;
@@ -87,22 +94,118 @@ public class KeyHandler implements DeviceKeyHandler {
         FP_GESTURE_TAP
     };
 
+    private Sensor mSensor;
+    private boolean mProxyIsNear;
+    private boolean mUseProxiCheck;
+    private boolean mProxyWasNear;
+    private long mProxySensorTimestamp;
+    private boolean mUseWaveCheck;
+    private boolean mUsePocketCheck;
 
     protected final Context mContext;
     private final PowerManager mPowerManager;
     private EventHandler mEventHandler;
     private WakeLock mGestureWakeLock;
     private Handler mHandler = new Handler();
+    private SettingsObserver mSettingsObserver;
     private static boolean mButtonDisabled;
     private final NotificationManager mNoMan;
     private final AudioManager mAudioManager;
+    private CameraManager mCameraManager;
+    private String mRearCameraId;
+    private boolean mTorchEnabled;
     private SensorManager mSensorManager;
-    private Sensor mSensor;
     private boolean mFPcheck;
     private boolean mDispOn;
     private WindowManagerPolicy mPolicy;
     private boolean isFpgesture;
 
+    private SensorEventListener mProximitySensor = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            mProxyIsNear = event.values[0] < mSensor.getMaximumRange();
+            if (DEBUG_SENSOR) Log.i(TAG, "mProxyIsNear = " + mProxyIsNear);
+            if (mUseProxiCheck) {
+                SystemProperties.set("sys.fpnav.enabled", mProxyIsNear ? "0" : "1");
+            }
+            if (mUseWaveCheck || mUsePocketCheck) {
+                if (mProxyWasNear && !mProxyIsNear) {
+                    long delta = SystemClock.elapsedRealtime() - mProxySensorTimestamp;
+                    if (mUseWaveCheck && delta < HANDWAVE_MAX_DELTA_MS) {
+                        launchDozePulse();
+                    }
+                    if (mUsePocketCheck && delta > POCKET_MIN_DELTA_MS) {
+                        launchDozePulse();
+                    }
+                } else {
+                    mProxySensorTimestamp = SystemClock.elapsedRealtime();
+                }
+            }
+            mProxyWasNear = mProxyIsNear;
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
+    };
+
+    private class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HARDWARE_KEYS_DISABLE),
+                    false, this);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DEVICE_PROXI_CHECK_ENABLED),
+                    false, this);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DEVICE_FEATURE_SETTINGS),
+                    false, this);
+            update();
+            updateDozeSettings();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            update();
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.DEVICE_FEATURE_SETTINGS))){
+                updateDozeSettings();
+                return;
+            }
+            update();
+        }
+
+        public void update() {
+            //setButtonDisable(mContext);
+            mUseProxiCheck = Settings.System.getIntForUser(
+                    mContext.getContentResolver(), Settings.System.DEVICE_PROXI_CHECK_ENABLED, 1,
+                    UserHandle.USER_CURRENT) == 1;
+        }
+    }
+
+    private class MyTorchCallback extends CameraManager.TorchCallback {
+        @Override
+        public void onTorchModeChanged(String cameraId, boolean enabled) {
+            if (!cameraId.equals(mRearCameraId))
+                return;
+            mTorchEnabled = enabled;
+        }
+
+        @Override
+        public void onTorchModeUnavailable(String cameraId) {
+            if (!cameraId.equals(mRearCameraId))
+                return;
+            mTorchEnabled = false;
+        }
+    }
 
     private BroadcastReceiver mScreenStateReceiver = new BroadcastReceiver() {
          @Override
@@ -124,9 +227,14 @@ public class KeyHandler implements DeviceKeyHandler {
         mPowerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         mGestureWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 "GestureWakeLock");
+        mSettingsObserver = new SettingsObserver(mHandler);
+        mSettingsObserver.observe();
         mNoMan = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        mCameraManager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
+        mCameraManager.registerTorchCallback(new MyTorchCallback(), mEventHandler);
         mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         IntentFilter screenStateFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         screenStateFilter.addAction(Intent.ACTION_SCREEN_OFF);
         mContext.registerReceiver(mScreenStateReceiver, screenStateFilter);
@@ -247,12 +355,18 @@ public class KeyHandler implements DeviceKeyHandler {
 
     private void onDisplayOn() {
         if (DEBUG) Log.i(TAG, "Display on");
-
+        if (enableProxiSensor()) {
+            mSensorManager.unregisterListener(mProximitySensor, mSensor);
+        }
     }
 
     private void onDisplayOff() {
         if (DEBUG) Log.i(TAG, "Display off");
-
+        if (enableProxiSensor()) {
+            mSensorManager.registerListener(mProximitySensor, mSensor,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+            mProxySensorTimestamp = SystemClock.elapsedRealtime();
+        }
     }
 
     private int getSliderAction(int position) {
@@ -411,5 +525,27 @@ public class KeyHandler implements DeviceKeyHandler {
             }
         }
         return null;
+    }
+
+    private void launchDozePulse() {
+        if (DEBUG) Log.i(TAG, "Doze pulse");
+        mContext.sendBroadcastAsUser(new Intent(DOZE_INTENT),
+                new UserHandle(UserHandle.USER_CURRENT));
+    }
+
+    private boolean enableProxiSensor() {
+        return mUsePocketCheck || mUseWaveCheck || mUseProxiCheck;
+    }
+
+    private void updateDozeSettings() {
+        String value = Settings.System.getStringForUser(mContext.getContentResolver(),
+                    Settings.System.DEVICE_FEATURE_SETTINGS,
+                    UserHandle.USER_CURRENT);
+        if (DEBUG) Log.i(TAG, "Doze settings = " + value);
+        if (!TextUtils.isEmpty(value)) {
+            String[] parts = value.split(":");
+            mUseWaveCheck = Boolean.valueOf(parts[0]);
+            mUsePocketCheck = Boolean.valueOf(parts[1]);
+        }
     }
 }
