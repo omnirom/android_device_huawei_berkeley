@@ -43,6 +43,7 @@ import android.os.UserHandle;
 public class GestureSettings extends PreferenceFragment implements
         Preference.OnPreferenceChangeListener {
 
+    public static final String KEY_PROXI_SWITCH = "proxi";
     public static final String KEY_FP_GESTURE_DEFAULT_CATEGORY = "gesture_settings";
 
     public static final String FP_GESTURE_SWIPE_DOWN_APP = "fp_down_swipe_gesture_app";
@@ -83,6 +84,10 @@ public class GestureSettings extends PreferenceFragment implements
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.gesture_settings, rootKey);
+
+            mProxiSwitch = (TwoStatePreference) findPreference(KEY_PROXI_SWITCH);
+            mProxiSwitch.setChecked(Settings.System.getInt(getContext().getContentResolver(),
+            Settings.System.DEVICE_PROXI_CHECK_ENABLED, 1) != 0);
         
             mFPRightSwipeApp = (AppSelectListPreference) findPreference(FP_GESTURE_SWIPE_RIGHT_APP);
             mFPRightSwipeApp.setEnabled(true);
@@ -117,6 +122,12 @@ public class GestureSettings extends PreferenceFragment implements
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
+        if (preference == mProxiSwitch) {
+            Settings.System.putInt(getContext().getContentResolver(),
+                    Settings.System.DEVICE_PROXI_CHECK_ENABLED, mProxiSwitch.isChecked() ? 1 : 0);
+            return true;
+        }
+
         return super.onPreferenceTreeClick(preference);
     }
 
