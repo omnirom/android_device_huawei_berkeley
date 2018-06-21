@@ -93,7 +93,7 @@ public class KeyHandler implements DeviceKeyHandler {
     private EventHandler mEventHandler;
     private WakeLock mGestureWakeLock;
     private Handler mHandler = new Handler();
-    private static boolean mButtonDisabled;
+    private boolean mButtonDisabled;
     private final NotificationManager mNoMan;
     private final AudioManager mAudioManager;
     private SensorManager mSensorManager;
@@ -102,7 +102,6 @@ public class KeyHandler implements DeviceKeyHandler {
     private boolean mDispOn;
     private WindowManagerPolicy mPolicy;
     private boolean isFpgesture;
-
 
     private BroadcastReceiver mScreenStateReceiver = new BroadcastReceiver() {
          @Override
@@ -163,6 +162,9 @@ public class KeyHandler implements DeviceKeyHandler {
 
     @Override
     public boolean canHandleKeyEvent(KeyEvent event) {
+        if (mButtonDisabled) {
+            return false;
+        }
         if (event.getScanCode() == FP_UP || event.getScanCode() == FP_DOWN){
             return false;
         }
@@ -171,9 +173,9 @@ public class KeyHandler implements DeviceKeyHandler {
 
     @Override
     public boolean isDisabledKeyEvent(KeyEvent event) {
-	if (event.getScanCode() == FP_UP || event.getScanCode() == FP_DOWN) {
-	    return true;
-	}
+        if (event.getScanCode() == FP_UP || event.getScanCode() == FP_DOWN) {
+            return true;
+        }
         return false;
     }
 
@@ -197,7 +199,8 @@ public class KeyHandler implements DeviceKeyHandler {
 
     @Override
     public Intent isActivityLaunchEvent(KeyEvent event) {
-        if (event.getAction() != KeyEvent.ACTION_UP || event.getScanCode() == FP_UP || event.getScanCode() == FP_DOWN) {
+        if (event.getAction() != KeyEvent.ACTION_UP || event.getScanCode() == FP_UP || event.getScanCode() == FP_DOWN
+                || mButtonDisabled) {
             return null;
         }
         String value = getGestureValueForFPScanCode(event.getScanCode());
