@@ -61,6 +61,9 @@ HEALTHD_ENABLE_HUAWEI_FASTCHG_CHECK := true
 # Properties
 TARGET_SYSTEM_PROP := $(DEVICE_PATH)/system.prop
 
+# Radio
+TARGET_PROVIDES_QTI_TELEPHONY_JAR := true
+
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.kirin970
 
