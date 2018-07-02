@@ -1,6 +1,7 @@
 # Audio
 /system/etc/audio_policy.conf    u:object_r:vendor_configs_file:s0
 /system/etc/usb_audio_policy_configuration.xml    u:object_r:vendor_configs_file:s0
+/system/etc/audio_effects_omni.xml    u:object_r:vendor_configs_file:s0
 
 # Block Devices
 /dev/block/bootdevice/by-name/modem_om          u:object_r:make_ext4fs_blkdev:s0
@@ -49,7 +50,7 @@
 /data/hisi_logs(/.*)?           u:object_r:logcat_data_file:s0
 /data/log/hi110x(/.*)?          u:object_r:logcat_data_file:s0
 /data/perf_data_hs.data         u:object_r:logcat_data_file:s0
-/data/android_logs(/.*)?                u:object_r:logcat_data_file:s0
+/data/android_logs(/.*)?                uvendor_configs_file:object_r:logcat_data_file:s0
 /data/log/fingerprint(/.*)?             u:object_r:logcat_data_file:s0
 
 # pmom (?)
