@@ -59,7 +59,12 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    SnapdragonCamera2
+    HwCamera2
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/HwCamera2/lib/android.hidl.base@1.0.so:system/lib/android.hidl.base@1.0.so \
+    $(LOCAL_PATH)/HwCamera2/lib64/android.hidl.base@1.0.so:system/lib64/android.hidl.base@1.0.so \
+    $(LOCAL_PATH)/HwCamera2/lib64/libHwPostCamera_jni.so:system/lib64/libHwPostCamera_jni.so
 
 # HIDL
 PRODUCT_PACKAGES += \
