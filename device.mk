@@ -57,6 +57,11 @@ PRODUCT_PACKAGES += \
     com.android.nfc_extras \
     nfc_nci.pn54x.default
 
+# Fix Voice Match
+PRODUCT_PACKAGES += \
+    HotwordEnrollmentOKGoogleHI6403 \
+    HotwordEnrollmentXGoogleHI6403
+
 # Camera
 PRODUCT_PACKAGES += \
     SnapdragonCamera2
