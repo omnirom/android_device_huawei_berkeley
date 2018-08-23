@@ -1,3 +1,4 @@
+#
 # Copyright (C) 2018 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +14,7 @@
 # limitations under the License.
 
 def FullOTA_InstallEnd(info):
+    info.script.AppendExtra("ifelse(is_mounted(\"/vendor\"), unmount(\"/vendor\"));")
     info.script.AppendExtra('mount("ext4", "EMMC", "/dev/block/bootdevice/by-name/system", "/system");');
     info.script.AppendExtra('mount("ext4", "EMMC", "/dev/block/bootdevice/by-name/vendor", "/vendor");');
     info.script.AppendExtra('assert(run_program("/sbin/sh", "/system/bin/releasetools.kirin970.sh") == 0);')
@@ -21,5 +23,5 @@ def FullOTA_InstallEnd(info):
 
 def FullOTA_PostValidate(info):
     info.script.AppendExtra('run_program("/sbin/e2fsck", "-fy", "/dev/block/bootdevice/by-name/system");');
-    info.script.AppendExtra('run_program("/sbin/resize2fs", "/dev/block/bootdevice/by-name/system");');
+    info.script.AppendExtra('run_program("/tmp/install/bin/resize2fs_static", "/dev/block/bootdevice/by-name/system");');
     info.script.AppendExtra('run_program("/sbin/e2fsck", "-fy", "/dev/block/bootdevice/by-name/system");');

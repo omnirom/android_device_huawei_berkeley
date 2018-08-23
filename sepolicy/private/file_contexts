@@ -1,7 +1,8 @@
 # Audio
-/system/etc/audio_policy.conf    u:object_r:vendor_configs_file:s0
 /system/etc/usb_audio_policy_configuration.xml    u:object_r:vendor_configs_file:s0
-/system/etc/audio_effects_omni.xml    u:object_r:vendor_configs_file:s0
+
+# bfm
+/dev/hw_bfm             u:object_r:bfmr_device:s0
 
 # Block Devices
 /dev/block/bootdevice/by-name/modem_om          u:object_r:make_ext4fs_blkdev:s0
@@ -12,6 +13,7 @@
 /dev/block/bootdevice/by-name/sensorhub         u:object_r:shex_block_device:s0
 /dev/block/bootdevice/by-name/hisee_img         u:object_r:hisee_blkdev:s0
 /dev/block/bootdevice/by-name/secure_storage    u:object_r:secure_storage_block_device:s0
+/dev/block/bootdevice/by-name/splash2           u:object_r:splash2_block_device:s0
 /dev/block/zram0                                u:object_r:swap_block_device:s0
 
 # Cust Data
@@ -62,11 +64,8 @@
 /data/sec_storage_data_users(/.*)?            u:object_r:teecd_data_file:s0
 
 # Splash2
-/dev/block/bootdevice/by-name/splash2           u:object_r:splash2_block_device:s0
 /splash2(/.*)?                                  u:object_r:splash2_data_file:s0
 
-# VNDK
-/system/bin/vndk-detect    u:object_r:vndk_detect_exec:s0
+# USB HAL
+/system/bin/hw/android\.hardware\.usb@1\.0-service\.kirin970       u:object_r:hal_usb_kirin970_exec:s0
 
-# bfm
-/dev/hw_bfm                 u:object_r:bfm_device:s0

@@ -1,4 +1,19 @@
 #!/sbin/sh
+#
+# Copyright (C) 2018 The LineageOS Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
 # Remount system as R/W
 mount -o rw,remount /system
@@ -7,12 +22,14 @@ mount -o rw,remount /system
 sed -i "/genfscon exfat/d" /system/etc/selinux/plat_sepolicy.cil
 sed -i "/genfscon fuseblk/d" /system/etc/selinux/plat_sepolicy.cil
 
-# Add mapping for displayengine-hal-1.1
-echo "(typeattributeset displayengineserver_27_0 (displayengineserver))" >> /system/etc/selinux/mapping/27.0.cil
-echo "(expandtypeattribute (displayengineserver_27_0) true)" >> /system/etc/selinux/mapping/27.0.cil
-echo "(typeattribute displayengineserver_27_0)" >> /system/etc/selinux/mapping/27.0.cil
+# Remove unexisting groups from daemons
+sed -i "/group reserved_disk/d" /system/etc/init/vold.rc
+sed -i "s/group incidentd/group/" /system/etc/init/incidentd.rc
+sed -i "/user incidentd/d" /system/etc/init/incidentd.rc
 
-# Fix logd service definition and SELinux for 8.0 vendor image
+sed -i 's/ro.build.version.release/ro.build.version.huawei1/g' /system/lib64/vndk-27/libsoftkeymasterdevice.so
+
+# 8.0 vendor image specific hacks
 if [ "$(grep ro.build.version.release /vendor/build.prop)" = "ro.build.version.release=8.0.0" ]; then
     # Fix logd service definition
     sed -i "s/socket logdw dgram+passcred 0222 logd logd/socket logdw dgram 0222 logd logd/g" /system/etc/init/logd.rc
@@ -21,15 +38,8 @@ if [ "$(grep ro.build.version.release /vendor/build.prop)" = "ro.build.version.r
     echo "(typeattributeset displayengineserver_26_0 (displayengineserver))" >> /system/etc/selinux/mapping/26.0.cil
     echo "(typeattributeset displayengine_hwservice_26_0 (displayengine_hwservice))" >> /system/etc/selinux/mapping/26.0.cil
 
-    # Add mapping for font and theme
-    echo "(expandtypeattribute (dufont_service_26_0) true)" >> /system/etc/selinux/mapping/26.0.cil
-    echo "(typeattribute dufont_service_26_0)" >> /system/etc/selinux/mapping/26.0.cil
-    echo "(expandtypeattribute (theme_data_file_26_0) true)" >> /system/etc/selinux/mapping/26.0.cil
-    echo "(typeattribute theme_data_file_26_0)" >> /system/etc/selinux/mapping/26.0.cil
-    echo "(expandtypeattribute (theme_prop_26_0) true)" >> /system/etc/selinux/mapping/26.0.cil
-    echo "(typeattribute theme_prop_26_0)" >> /system/etc/selinux/mapping/26.0.cil
-
     # Remove duplicated type definitions
+    sed -i "/(type bfmr_device)/d;/(roletype object_r bfmr_device)/d" /system/etc/selinux/plat_sepolicy.cil
     sed -i "/(type check_root_prop)/d;/(roletype object_r check_root_prop)/d" /system/etc/selinux/plat_sepolicy.cil
     sed -i "/(type cust_data_file)/d;/(roletype object_r cust_data_file)/d" /system/etc/selinux/plat_sepolicy.cil
     sed -i "/(type dmd_device)/d;/(roletype object_r dmd_device)/d" /system/etc/selinux/plat_sepolicy.cil
@@ -49,7 +59,9 @@ if [ "$(grep ro.build.version.release /vendor/build.prop)" = "ro.build.version.r
     sed -i "/(type thirdmodem_block_device)/d;/(roletype object_r thirdmodem_block_device)/d" /system/etc/selinux/plat_sepolicy.cil
     sed -i "/(type thirdmodemnvmbkp_block_device)/d;/(roletype object_r thirdmodemnvmbkp_block_device)/d" /system/etc/selinux/plat_sepolicy.cil
     sed -i "/(type thirdmodemnvm_block_device)/d;/(roletype object_r thirdmodemnvm_block_device)/d" /system/etc/selinux/plat_sepolicy.cil
-    sed -i "/(type theme_data_file)/d;/(roletype object_r theme_data_file)/d" /system/etc/selinux/plat_sepolicy.cil
+
+    # Remove duplicated labels (bfm)
+    sed -i "/\/dev\/hw_bfm/d" /system/etc/selinux/plat_file_contexts
 
     # Remove duplicated labels (Block Devices)
     sed -i "/\/dev\/block\/bootdevice\/by-name\/3rdmodem/d" /system/etc/selinux/plat_file_contexts
@@ -109,6 +121,13 @@ if [ "$(grep ro.build.version.release /vendor/build.prop)" = "ro.build.version.r
 
     # Remove duplicated properties
     sed -i "/huawei.check.root./d" /system/etc/selinux/plat_property_contexts
+
+    # Use vndk 26
+    sed -i "s/27/26/" /system/etc/init/gsi/init.vndk-27.rc
+
+    # Copy over vendor media_codecs.xml and disable unwanted HW codecs
+    cp /vendor/etc/media_codecs.xml /system/etc/media_codecs.xml
+    sed -i "s/<MediaCodec name=\"OMX.hisi.video.decoder.avc\" type=\"video\/avc\" >/<MediaCodec name=\"OMX.hisi.video.decoder.avc\" type=\"video\/no-avc\" >/g" /system/etc/media_codecs.xml
 fi
 
 exit 0

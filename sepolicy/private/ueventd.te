@@ -1,3 +1,2 @@
-allow ueventd device:chr_file relabelto;
-allow ueventd bfm_device:chr_file relabelto;
-
+# Allow ueventd to read /proc/bootdevice
+allow ueventd proc_bootdevice:file r_file_perms;
