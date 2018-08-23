@@ -1,11 +1,11 @@
 #
-# Copyright (C) 2017 The LineageOS Project
+# Copyright (C) 2018 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,10 @@
 
 include build/make/target/board/generic_arm64_a/BoardConfig.mk
 
+# Assert
+TARGET_OTA_ASSERT_DEVICE := berkeley,kirin970
+
+VENDOR_PATH := vendor/huawei/berkeley
 DEVICE_PATH := device/huawei/berkeley
 
 # Platform
@@ -34,29 +38,38 @@ TARGET_2ND_CPU_VARIANT := cortex-a53
 PRODUCT_FULL_TREBLE := true
 BOARD_VNDK_VERSION := current
 
-# Assert
-TARGET_OTA_ASSERT_DEVICE := berkeley,kirin970
-
 # Kernel
 BOARD_KERNEL_IMAGE_NAME := Image
 TARGET_NO_KERNEL := false
 TARGET_PREBUILT_KERNEL := /dev/null
 
-# Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
-BOARD_HAVE_BLUETOOTH := true
-
-TARGET_KERNEL_SOURCE := kernel/huawei/kirin970
 TARGET_KERNEL_CONFIG := merge_kirin970_defconfig
+TARGET_KERNEL_SOURCE := kernel/huawei/kirin970
 
-# Partitions
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 5767168000
+# BOARD_KERNEL_CMDLINE := loglevel=4 coherent_pool=512K page_tracker=on slub_min_objects=12 androidboot.selinux=permissive
+# BOARD_KERNEL_BASE := 0x00478000
+# BOARD_KERNEL_PAGESIZE := 2048
+# BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x07b88000 --tags_offset 0x07588000
+# HISI_TARGET_PRODUCT := kirin970
+# TARGET_ARM_TYPE := arm64
+# TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
+# BOARD_KERNEL_IMAGE_NAME := Image.gz
+
+# Charger
+HEALTHD_ENABLE_HUAWEI_FASTCHG_CHECK := true
 
 # Camera
 BOARD_USES_SNAPDRAGONCAMERA_VERSION := 2
 
-# Charger
-HEALTHD_ENABLE_HUAWEI_FASTCHG_CHECK := true
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
+BOARD_HAVE_BLUETOOTH := true
+
+# Extended Filesystem Support
+TARGET_EXFAT_DRIVER := exfat
+
+# Partitions
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 5767168000
 
 # Properties
 TARGET_SYSTEM_PROP := $(DEVICE_PATH)/system.prop
@@ -73,4 +86,10 @@ TARGET_SYSTEM_AUDIO_EFFECTS := true
 # SELinux
 BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/private
 BOARD_PLAT_PUBLIC_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/public
-include vendor/omni/sepolicy/sepolicy.mk
+
+# Shims
+TARGET_LD_SHIM_LIBS := \
+    /system/lib64/libdisplayenginesvc_1_0.so|libshims_hwsmartdisplay_jni.so \
+    /system/lib64/libdisplayenginesvc_1_1.so|libshims_hwsmartdisplay_jni.so \
+    /system/lib64/libhwsmartdisplay_jni.so|libshims_hwsmartdisplay_jni.so \
+    /vendor/bin/hw/vendor.huawei.hardware.hisupl@1.0-service|libshims_hisupl.so
