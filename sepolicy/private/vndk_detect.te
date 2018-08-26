@@ -5,7 +5,7 @@ type vndk_detect_exec, exec_type, file_type;
 init_daemon_domain(vndk_detect)
 
 # Allow reading files in /vendor
-r_dir_file(vndk_detect, vendor_file)
+# r_dir_file(vndk_detect, vendor_file)
 
 # Allow setting sys.vndk.ldconfig property
 set_prop(vndk_detect, vndk_detect_prop)
