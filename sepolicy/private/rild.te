@@ -1,1 +1,1 @@
-allow rild system_data_file:lnk_file read;
+# allow rild system_data_file:lnk_file read;
