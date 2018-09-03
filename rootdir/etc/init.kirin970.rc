@@ -14,6 +14,7 @@ on fs
     mount ext4 /dev/block/by-name/version${ro.boot.slot_suffix} /version wait ro
     mount none /odm/hw_odm/${ro.boot.product.hardware.sku} /hw_odm bind
     mount none /system/etc/audio_policy_configuration.xml /vendor/etc/audio_policy_configuration.xml bind
+    mount none /dev/null /vendor/etc/init/android.hardware.health@2.0-service.rc bind
 
 on post-fs-data
     start teecd

@@ -43,3 +43,6 @@
 
 # Configs
 /system/etc/audio_policy_configuration.xml u:object_r:vendor_configs_file:s0
+
+# Health
+/system/bin/hw/android.hardware.health@2.0-service.berkeley u:object_r:hal_health_omni_exec:s0

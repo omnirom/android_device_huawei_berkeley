@@ -45,6 +45,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     HuaweiParts
 
+# Health
+PRODUCT_PACKAGES += android.hardware.health@2.0-service.berkeley
+DEVICE_FRAMEWORK_MANIFEST_FILE += \
+    system/libhidl/vintfdata/manifest_healthd_exclude.xml
+
 # NFC
 PRODUCT_PACKAGES += \
     NfcNci \
