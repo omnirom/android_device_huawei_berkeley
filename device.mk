@@ -21,8 +21,7 @@ $(call inherit-product, vendor/omni/config/phone-xxhdpi-2048-hwui-memory.mk)
 
 # Audio
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
-    $(LOCAL_PATH)/audio/audio_effects_omni.conf:system/etc/audio_effects_omni.conf
+    $(LOCAL_PATH)/audio/audio_policy_configuration.xml:system/etc/audio_policy_configuration.xml
 
 # Boot animation
 TARGET_SCREEN_HEIGHT := 2160
