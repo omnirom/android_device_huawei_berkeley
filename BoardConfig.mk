@@ -50,6 +50,7 @@ TARGET_KERNEL_SOURCE := kernel/huawei/kirin970
 TARGET_KERNEL_CONFIG := merge_kirin970_defconfig
 
 # Partitions
+BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 5767168000
 
 # Camera
