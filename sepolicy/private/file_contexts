@@ -70,3 +70,4 @@
 
 # bfm
 /dev/hw_bfm                 u:object_r:bfm_device:s0
+/system/bin/bfm-ctl     u:object_r:bfm-ctl_exec:s0

@@ -52,3 +52,9 @@ on property:service.adb.tcp.port=5555
 on property:service.adb.tcp.port=-1
     stop adbd
     start adbd
+
+service bfm-ctl /system/bin/bfm-ctl
+    class main
+    user system
+    group system
+    oneshot
