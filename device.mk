@@ -32,6 +32,10 @@ TARGET_SCREEN_WIDTH := 1080
 PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:system/etc/usb_audio_policy_configuration.xml
 
+# bfm
+PRODUCT_PACKAGES += \
+    bfm-ctl
+
 # Device init scripts
 PRODUCT_PACKAGES += \
     init.kirin970.rc \
