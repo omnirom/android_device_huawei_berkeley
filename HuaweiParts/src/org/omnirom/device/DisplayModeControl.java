@@ -16,10 +16,8 @@
 
 package org.omnirom.device;
 
-import android.os.SystemProperties;
 import android.util.Log;
 import com.android.server.display.DisplayEngineService;
-import com.android.server.display.DisplayEngineService_V1_0;
 import com.android.server.display.DisplayEngineService_V1_1;
 import com.android.server.HwSmartDisplayService;
 import com.android.server.power.HwPowerManagerService;
@@ -40,9 +38,6 @@ import vendor.huawei.hardware.tp.V1_0.ExtTouchScreen;
 
 public class DisplayModeControl {
 
-    private static final String DISPLAY_ENGINE_V1_0_PROP = "init.svc.displayengine-hal-1-0";
-    private static final String DISPLAY_ENGINE_V1_1_PROP = "init.svc.displayengine-hal-1-1";
-
     public static DisplayEngineService sDisplayEngineService;
     private static int sColorEnhancementCurrentMode;
     public static HwSmartDisplayService sHwSmartDisplayService;
@@ -51,11 +46,7 @@ public class DisplayModeControl {
 
     static {
         try {
-            if (SystemProperties.get(DISPLAY_ENGINE_V1_0_PROP, "") != "") {
-                sDisplayEngineService = new DisplayEngineService_V1_0();
-            } else if (SystemProperties.get(DISPLAY_ENGINE_V1_1_PROP, "") != "") {
-                sDisplayEngineService = new DisplayEngineService_V1_1();
-            }
+            sDisplayEngineService = new DisplayEngineService_V1_1();
 
             sHwSmartDisplayService = new HwSmartDisplayService();
             sHwSmartDisplayService.init_native();

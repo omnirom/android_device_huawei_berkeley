@@ -1,7 +1,7 @@
 on init
     mount none /system/etc/audio_policy.conf /vendor/etc/audio_policy.conf bind
     mount none /system/etc/audio_effects_omni.conf /vendor/etc/audio_effects.conf bind
-    export LD_SHIM_LIBS /system/lib64/libdisplayenginesvc_1_0.so|libshims_hwsmartdisplay_jni.so:/system/lib64/libdisplayenginesvc_1_1.so|libshims_hwsmartdisplay_jni.so:/system/lib64/libhwsmartdisplay_jni.so|libshims_hwsmartdisplay_jni.so:/system/lib64/libhwpwmanager_jni.so|libshims_hwsmartdisplay_jni.so
+    export LD_SHIM_LIBS /system/lib64/libdisplayengineservice.so|libshims_hwsmartdisplay_jni.so
 
 on property:sys.boot_completed=1
     write /sys/class/hw_power/charger/direct_charger/iin_thermal 4500
@@ -16,24 +16,6 @@ on property:sys.fpnav.enabled=1
     write /sys/devices/platform/fingerprint/nav 1
     stop fps_hal_ext
     start fps_hal_ext
-
-service dpeservice-1.0 /system/bin/displayengineserver@1.0
-    class main
-    user graphics
-    group graphics system sdcard_rw
-    disabled
-
-service dpeservice-1.1 /system/bin/displayengineserver@1.1
-    class main
-    user graphics
-    group graphics system sdcard_rw
-    disabled
-
-on property:init.svc.displayengine-hal-1-0=*
-    start dpeservice-1.0
-
-on property:init.svc.displayengine-hal-1-1=*
-    start dpeservice-1.1
 
 # adb over network
 on property:service.adb.tcp.port=5555
