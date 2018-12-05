@@ -19,6 +19,10 @@ on fs
 on post-fs-data
     start teecd
 
+on property:sys.user.0.ce_available=true
+    mkdir /data/sec_storage_data 0700 system system
+    mkdir /data/sec_storage_data_users 0700 system system
+
 on property:sys.boot_completed=1
     write /sys/class/hw_power/charger/direct_charger/iin_thermal 4500
     write /sys/class/hw_power/charger/charge_data/iin_thermal 2000
