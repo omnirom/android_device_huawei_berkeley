@@ -1,2 +1,0 @@
-allow hisee_data_file self:filesystem associate;
-

@@ -1,2 +1,0 @@
-allow vndservicemanager dubai_log_device:chr_file { write open };
-
