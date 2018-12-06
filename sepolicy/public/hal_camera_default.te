@@ -1,2 +1,0 @@
-#allow hal_camera_default dubai_log_device:chr_file write;
-
