@@ -90,6 +90,16 @@ TARGET_USES_MKE2FS := true
 # Release tools
 TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)/releasetools
 
+# Root
+BOARD_ROOT_EXTRA_FOLDERS := \
+    cust \
+    hw_odm \
+    modem_log \
+    preload \
+    sec_storage \
+    splash2 \
+    version
+
 # audio effects
 TARGET_SYSTEM_AUDIO_EFFECTS := true
 

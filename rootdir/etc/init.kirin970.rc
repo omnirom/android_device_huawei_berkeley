@@ -3,6 +3,13 @@ on init
     mount none /system/etc/audio_effects_omni.conf /vendor/etc/audio_effects.conf bind
     export LD_SHIM_LIBS /system/lib64/libdisplayengineservice.so|libshims_hwsmartdisplay_jni.so
 
+on fs
+    mount ext4 /dev/block/by-name/cust_a /cust wait ro
+    mount ext4 /dev/block/by-name/preload_a /preload wait ro
+    mount ext4 /dev/block/by-name/product_a /product wait ro
+    mount ext4 /dev/block/by-name/version_a /version wait ro
+    mount none /odm/hw_odm/${ro.boot.product.hardware.sku} /hw_odm bind
+
 on property:sys.boot_completed=1
     write /sys/class/hw_power/charger/direct_charger/iin_thermal 4500
     write /sys/class/hw_power/charger/charge_data/iin_thermal 2000
