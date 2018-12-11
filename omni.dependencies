@@ -4,5 +4,11 @@
      "repository": "android_packages_apps_SnapdragonCamera2",
      "target_path": "packages/apps/SnapdragonCamera2",
      "revision": "android-8.1"
+  },
+  {
+    "remote": "omnirom",
+    "repository": "android_kernel_huawei_kirin970",
+    "target_path": "kernel/huawei/kirin970",
+    "revision": "android-9"
   }
 ]
