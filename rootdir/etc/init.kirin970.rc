@@ -1,14 +1,23 @@
 on init
-    mount none /system/etc/audio_policy.conf /vendor/etc/audio_policy.conf bind
-    mount none /system/etc/audio_effects_omni.conf /vendor/etc/audio_effects.conf bind
+    symlink /dev/block/platform/${ro.boot.boot_devices} /dev/block/bootdevice
+
     export LD_SHIM_LIBS /system/lib64/libdisplayengineservice.so|libshims_hwsmartdisplay_jni.so
 
 on fs
-    mount ext4 /dev/block/by-name/cust_a /cust wait ro
-    mount ext4 /dev/block/by-name/preload_a /preload wait ro
-    mount ext4 /dev/block/by-name/product_a /product wait ro
-    mount ext4 /dev/block/by-name/version_a /version wait ro
+    mount ext4 /dev/block/by-name/cust /cust wait ro
+    mount ext4 /dev/block/by-name/cust${ro.boot.slot_suffix} /cust wait ro
+    mount ext4 /dev/block/by-name/preload /preload wait ro
+    mount ext4 /dev/block/by-name/preload${ro.boot.slot_suffix} /preload wait ro
+    mount ext4 /dev/block/by-name/product /product wait ro
+    mount ext4 /dev/block/by-name/product${ro.boot.slot_suffix} /product wait ro
+    mount ext4 /dev/block/by-name/version /version wait ro
+    mount ext4 /dev/block/by-name/version${ro.boot.slot_suffix} /version wait ro
     mount none /odm/hw_odm/${ro.boot.product.hardware.sku} /hw_odm bind
+    mount none /system/etc/audio_policy.conf /vendor/etc/audio_policy.conf bind
+    mount none /system/etc/audio_effects_omni.conf /vendor/etc/audio_effects.conf bind
+
+on post-fs-data
+    start teecd
 
 on property:sys.boot_completed=1
     write /sys/class/hw_power/charger/direct_charger/iin_thermal 4500
