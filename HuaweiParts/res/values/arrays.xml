@@ -26,16 +26,6 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="colour_profiles_entries" translatable="false">
-        <item>@string/colour_profile_normal</item>
-        <item>@string/colour_profile_vivid</item>
-    </string-array>
-
-    <string-array name="colour_profiles_values" translatable="false">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
-
     <!-- led color list -->
     <string-array name="entries_led_colors" translatable="false">
         <item>@string/led_color_green</item>
