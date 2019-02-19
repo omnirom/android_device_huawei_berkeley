@@ -46,17 +46,13 @@ public class DeviceSettings extends PreferenceFragment implements
     public static String FPNAV_ENABLED_PROP = "sys.fpnav.enabled";
     
     public static final String KEY_HIGH_TOUCH = "high_touch_key";
-    public static final String HIGH_TOUCH_MODE = "/sys/touchscreen/touch_glove";
     
     public static final String SLIDER_DEFAULT_VALUE = "4,2,0";
 
-    public static final String COLOUR_PROFILES_KEY = "colour_profiles_key";
     public static final String COLOUR_TEMP_KEY = "colour_temp_key";
     public static final String COLOUR_TEMP_RGB_KEY = "colour_temp_rgb_key";
 
     private TwoStatePreference mFpGestures;
-    private TwoStatePreference mHighTouch;
-    private ListPreference mColourProfiles;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -64,15 +60,6 @@ public class DeviceSettings extends PreferenceFragment implements
 
         mFpGestures = (TwoStatePreference) findPreference(KEY_FP_GESTURES);
         mFpGestures.setChecked(SystemProperties.get(FPNAV_ENABLED_PROP, "0").equals("1"));
-
-        mHighTouch = (TwoStatePreference) findPreference(KEY_HIGH_TOUCH);
-        mHighTouch.setChecked(Utils.getFileValueAsBoolean(HIGH_TOUCH_MODE, false));
-
-        mColourProfiles = (ListPreference) findPreference(COLOUR_PROFILES_KEY);
-        mColourProfiles.setOnPreferenceChangeListener(this);
-        int index = Integer.parseInt(Utils.getPreference(getContext(), DeviceSettings.COLOUR_PROFILES_KEY, "0"));
-        mColourProfiles.setValueIndex(index);
-        mColourProfiles.setSummary(mColourProfiles.getEntries()[index]);
 
     }
 
@@ -84,29 +71,11 @@ public class DeviceSettings extends PreferenceFragment implements
 
             return true;
         }
-        else if (preference == mHighTouch) {
-            DisplayModeControl.mExtTouchScreen.hwTsSetCoverMode(mHighTouch.isChecked());
-            return true;
-        }
         return super.onPreferenceTreeClick(preference);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        if (preference == mColourProfiles) {
-            String value = (String) newValue;
-            int colourPofile = Integer.valueOf(value);
-            //setSliderAction(0, colourPofile);
-            DisplayModeControl.setMode(colourPofile);
-
-            // 2 : COLOR_ENHANCEMENT (1 : Eye Comfort)
-            DisplayModeControl.sHwSmartDisplayService.nativeSetSmartDisplay(2, colourPofile);
-
-            Utils.writePreference(getContext(), COLOUR_PROFILES_KEY, value);
-
-            int valueIndex = mColourProfiles.findIndexOfValue(value);
-            mColourProfiles.setSummary(mColourProfiles.getEntries()[valueIndex]);
-        }
         return true;
     }
 }

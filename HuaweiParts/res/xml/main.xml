@@ -53,16 +53,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/colour_profiles">
-        <ListPreference
-            android:key="colour_profiles_key"
-            android:title="@string/colour_profiles"
-            android:entries="@array/colour_profiles_entries"
-            android:entryValues="@array/colour_profiles_values"
-            android:persistent="false" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/colour_temperature">
         <org.omnirom.device.ColourTempPreference
             android:key="colour_temp_key"

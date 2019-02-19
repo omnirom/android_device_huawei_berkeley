@@ -3,8 +3,6 @@ import /vendor/etc/init/${ro.bootmode}/init.${ro.bootmode}.rc
 on init
     symlink /dev/block/platform/${ro.boot.boot_devices} /dev/block/bootdevice
 
-    export LD_SHIM_LIBS /system/lib64/libdisplayengineservice.so|libshims_hwsmartdisplay_jni.so
-
 on fs
     mount ext4 /dev/block/by-name/cust /cust wait ro
     mount ext4 /dev/block/by-name/cust${ro.boot.slot_suffix} /cust wait ro
