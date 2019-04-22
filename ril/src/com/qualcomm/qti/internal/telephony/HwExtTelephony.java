@@ -207,8 +207,7 @@ public class HwExtTelephony extends IExtTelephony.Stub {
             if (card.getApplicationIndex(i) == null) {
                 continue;
             }
-
-            mCommandsInterfaces[slotId].setUiccSubscription(i, activate, null);
+            mCommandsInterfaces[slotId].setUiccSubscription(slotId, i, mPhones[slotId].getSubId(), activate ? 1 : 0, null);
         }
     }
 
