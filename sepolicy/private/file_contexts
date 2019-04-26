@@ -65,9 +65,6 @@
 /dev/block/bootdevice/by-name/splash2           u:object_r:splash2_block_device:s0
 /splash2(/.*)?                                  u:object_r:splash2_data_file:s0
 
-# VNDK
-/system/bin/vndk-detect    u:object_r:vndk_detect_exec:s0
-
 # bfm
 /dev/hw_bfm                 u:object_r:bfm_device:s0
 /system/bin/bfm-ctl     u:object_r:bfm-ctl_exec:s0
