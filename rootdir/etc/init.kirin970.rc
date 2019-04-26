@@ -1,7 +1,4 @@
 on init
-    mount none /system/bin/adbd /sbin/adbd bind
-    mount none /dev/null /vendor/etc/init/vendor.huawei.hardware.hisupl@1.0-service.rc bind
-    mount none /system/etc/usb_audio_policy_configuration.xml /vendor/etc/usb_audio_policy_configuration.xml bind
     mount none /system/etc/audio_policy.conf /vendor/etc/audio_policy.conf bind
     mount none /system/etc/audio_effects_omni.conf /vendor/etc/audio_effects.conf bind
     export LD_SHIM_LIBS /system/lib64/libdisplayenginesvc_1_0.so|libshims_hwsmartdisplay_jni.so:/system/lib64/libdisplayenginesvc_1_1.so|libshims_hwsmartdisplay_jni.so:/system/lib64/libhwsmartdisplay_jni.so|libshims_hwsmartdisplay_jni.so:/system/lib64/libhwpwmanager_jni.so|libshims_hwsmartdisplay_jni.so
@@ -19,12 +16,6 @@ on property:sys.fpnav.enabled=1
     write /sys/devices/platform/fingerprint/nav 1
     stop fps_hal_ext
     start fps_hal_ext
-
-service hisupl_service /vendor/bin/hw/vendor.huawei.hardware.hisupl@1.0-service
-    class hal
-    user system
-    group system
-    setenv LD_PRELOAD libshims_hisupl.so
 
 service dpeservice-1.0 /system/bin/displayengineserver@1.0
     class main

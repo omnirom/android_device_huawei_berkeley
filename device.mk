@@ -28,27 +28,17 @@ PRODUCT_COPY_FILES += \
 TARGET_SCREEN_HEIGHT := 2160
 TARGET_SCREEN_WIDTH := 1080
 
-# Audio
-PRODUCT_COPY_FILES += \
-    frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:system/etc/usb_audio_policy_configuration.xml
-
 # bfm
 PRODUCT_PACKAGES += \
     bfm-ctl
 
 # Device init scripts
 PRODUCT_PACKAGES += \
-    init.kirin970.rc \
-    init.kirin970.ab.rc \
-    init.kirin970.omni.rc
+    init.kirin970.rc
 
 # Display
 PRODUCT_PACKAGES += \
     libion
-
-# HIDL
-PRODUCT_COPY_FILES += \
-    device/huawei/berkeley/compatibility_matrix.xml:system/compatibility_matrix.xml
 
 # Display
 PRODUCT_PACKAGES += \
@@ -64,11 +54,6 @@ PRODUCT_PACKAGES += \
 # Camera
 PRODUCT_PACKAGES += \
     SnapdragonCamera2
-
-# HIDL
-PRODUCT_PACKAGES += \
-    android.hidl.base@1.0 \
-    android.hidl.manager@1.0
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -112,15 +97,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     telephony-ext
 
-# Release tools
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/releasetools/releasetools.kirin970.sh:system/bin/releasetools.kirin970.sh
-
-# Remove unwanted packages
-PRODUCT_PACKAGES += \
-    RemovePackages
-
 # Shims
 PRODUCT_PACKAGES += \
-    libshims_hisupl \
     libshims_hwsmartdisplay_jni
