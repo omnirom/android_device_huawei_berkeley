@@ -81,7 +81,7 @@ public class DozeSettings extends PreferenceFragment  {
 
     private void getDozeSettings() {
         String value = Settings.System.getString(getContext().getContentResolver(),
-                    Settings.System.DEVICE_FEATURE_SETTINGS);
+                    Settings.System.OMNI_DEVICE_FEATURE_SETTINGS);
         if (!TextUtils.isEmpty(value)) {
             String[] parts = value.split(":");
             mUseWaveCheck = Boolean.valueOf(parts[0]);
@@ -91,7 +91,7 @@ public class DozeSettings extends PreferenceFragment  {
 
     private void setDozeSettings() {
         String newValue = String.valueOf(mUseWaveCheck) + ":" + String.valueOf(mUsePocketCheck) + ":" + String.valueOf(false);
-        Settings.System.putString(getContext().getContentResolver(), Settings.System.DEVICE_FEATURE_SETTINGS, newValue);
+        Settings.System.putString(getContext().getContentResolver(), Settings.System.OMNI_DEVICE_FEATURE_SETTINGS, newValue);
     }
 
     private boolean isAmbientDisplayEnabled() {

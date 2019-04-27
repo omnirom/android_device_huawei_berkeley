@@ -87,7 +87,7 @@ public class GestureSettings extends PreferenceFragment implements
 
             mProxiSwitch = (TwoStatePreference) findPreference(KEY_PROXI_SWITCH);
             mProxiSwitch.setChecked(Settings.System.getInt(getContext().getContentResolver(),
-            Settings.System.DEVICE_PROXI_CHECK_ENABLED, 1) != 0);
+            Settings.System.OMNI_DEVICE_PROXI_CHECK_ENABLED, 1) != 0);
         
             mFPRightSwipeApp = (AppSelectListPreference) findPreference(FP_GESTURE_SWIPE_RIGHT_APP);
             mFPRightSwipeApp.setEnabled(true);
@@ -124,7 +124,7 @@ public class GestureSettings extends PreferenceFragment implements
     public boolean onPreferenceTreeClick(Preference preference) {
         if (preference == mProxiSwitch) {
             Settings.System.putInt(getContext().getContentResolver(),
-                    Settings.System.DEVICE_PROXI_CHECK_ENABLED, mProxiSwitch.isChecked() ? 1 : 0);
+                    Settings.System.OMNI_DEVICE_PROXI_CHECK_ENABLED, mProxiSwitch.isChecked() ? 1 : 0);
             return true;
         }
 

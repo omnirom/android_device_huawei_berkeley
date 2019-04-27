@@ -25,8 +25,7 @@
     android:clipToPadding="false" >
 
     <LinearLayout
-        android:id="@+id/icon_frame"
-        style="@style/preference_icon_frame"
+        android:id="@+id/icon_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="start|center_vertical"
